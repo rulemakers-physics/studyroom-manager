@@ -1,0 +1,16 @@
+/* app/globals.css */
+@import "tailwindcss";
+
+/* 아래에 커스텀 스타일이 있다면 그건 남겨두셔도 됩니다 */
+@media print {
+  @page {
+    margin: 1cm;
+    size: A4 portrait;
+  }
+  body {
+    background: white;
+  }
+  header, footer, nav, .no-print {
+    display: none !important;
+  }
+}
