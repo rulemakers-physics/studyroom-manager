@@ -5,6 +5,9 @@ import { collection, onSnapshot, doc, updateDoc, Timestamp, setDoc } from 'fireb
 import { db } from '@/lib/firebase';
 import { Student, DayOfWeek } from '@/types';
 
+// 날짜 포맷 (상단에 정의)
+const todayStr = new Date().toISOString().split('T')[0];
+
 // --- 상수 및 레이아웃 정의 (기존과 동일하게 유지) ---
 const SEAT_LAYOUT: (string | null | 'BIG_GAP')[][] = [
   ['독-088', 'BIG_GAP', '독-042', '독-041', '독-040', '독-039', '독-038', '독-037', '독-036', '독-035'],
@@ -157,6 +160,9 @@ export default function PatrolPage() {
     const student = students[seatId];
     // 좌석 번호 라벨 (독- 제거)
     const seatLabel = seatId.replace('독-', '').replace('대-', '대기');
+
+    // 도시락 renderSeat 함수 내부
+    const hasLunch = student?.lunchDates?.includes(todayStr);
     
     // 학생이 없는 경우
     if (!student) {
@@ -194,12 +200,20 @@ export default function PatrolPage() {
           ${statusInfo.color}
         `}
       >
-        <div className="flex justify-between items-start">
-          <span className="text-[10px] font-bold opacity-70">{seatLabel}</span>
-          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/50 border border-black/5 shadow-sm">
-             {statusInfo.type === 'MENTORING' ? '멘토링' : statusInfo.label}
-          </span>
+        {/* ▼▼▼ [추가할 부분] 도시락 아이콘 (왼쪽 상단) ▼▼▼ */}
+      {hasLunch && (
+        <div className="absolute top-0 left-0 bg-orange-500 text-white text-[9px] font-bold px-1 rounded-br-md rounded-tl-md shadow-sm z-10">
+          🍱 도시락
         </div>
+      )}
+      {/* ▲▲▲ [여기까지 추가] ▲▲▲ */}
+
+      <div className="flex justify-between items-start">
+        <span className="text-[10px] font-bold opacity-70 ml-1">{/* 도시락 아이콘과 안 겹치게 여백(ml-1) 살짝 줘도 좋음 */} {seatLabel}</span>
+        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/50 border border-black/5 shadow-sm">
+           {statusInfo.type === 'MENTORING' ? '멘토링' : statusInfo.label}
+        </span>
+      </div>
         
         <div className="text-center mt-1">
           <div className="font-bold text-sm truncate leading-tight">{student.name}</div>

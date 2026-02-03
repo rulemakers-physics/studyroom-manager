@@ -34,6 +34,8 @@ export interface Student {
   
   // 멘토링 스케줄 (멘토링배치 파일 참조)
   mentoringSessions: MentoringSession[];
+  // "2026-02-04" 형식의 문자열 배열
+  lunchDates?: string[];
   
   memo?: string; // 특이사항
 }
