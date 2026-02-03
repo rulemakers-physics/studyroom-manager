@@ -27,7 +27,8 @@ export interface Student {
   school: string;         // "한민고"
   grade: string;          // "2" (학년)
   phoneNumber?: string;   // 연락처 (신규퇴원현황 등에서 매핑 가능 시)
-  status: '재원' | '휴원' | '퇴원' | '대기';
+  // ▼▼▼ [수정됨] 상태값에 '이석', '외출', '결석' 추가 ▼▼▼
+  status: '재원' | '휴원' | '퇴원' | '대기' | '이석' | '외출' | '결석';
   
   // 정규 등하원 스케줄 (기본틀 파일 F열~ 참조)
   schedules: TimeSlot[]; 
